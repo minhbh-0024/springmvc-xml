@@ -78,6 +78,7 @@ public class StudentServiceImpl extends BaseServiceImpl implements StudentServic
 		}
 	}
 	
+	// minh
 	@Override
 	public List<Student> findByInfo(String info) {
 		try {

@@ -100,6 +100,7 @@ public class StudentController {
 		ModelAndView model = new ModelAndView("home");
 		
 		model.addObject("students", studentService.findByInfo(info));
+		model.addObject("info", info);
 
 		return model;
 	}

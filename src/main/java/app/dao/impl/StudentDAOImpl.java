@@ -8,10 +8,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 
 import app.dao.GenericDAO;
 import app.dao.StudentDAO;
@@ -56,20 +53,33 @@ public class StudentDAOImpl extends GenericDAO<Integer, Student> implements Stud
 	}
 
 	// minh
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Student> findByInfo(String info) {
 		logger.info("info: " + info);
 
-		Criteria cr = getSession().createCriteria(Student.class);
+		/*
+		 * Criteria cr = getSession().createCriteria(Student.class);
+		 * 
+		 * Criterion crEmail = Restrictions.like("email", "%" + info + "%"); Criterion
+		 * crName = Restrictions.like("name", "%" + info + "%");
+		 * 
+		 * cr.add(Restrictions.or(crEmail, crName));
+		 * 
+		 * return cr.list();
+		 */
 		
-		Criterion crEmail = Restrictions.like("email", "%" + info + "%");
-		Criterion crName = Restrictions.like("name", "%" + info + "%");
 		
-		cr.add(Restrictions.or(crEmail, crName));
+		CriteriaBuilder builder = getSession().getCriteriaBuilder();
+		CriteriaQuery<Student> query = builder.createQuery(Student.class);
+		Root<Student> root = query.from(Student.class);
+		query.select(root);
 		
-		return cr.list();
-	}
+		Predicate restriction = builder.or(builder.like(root.get("name"), "%" + info + "%"), builder.like(root.get("email"), "%" + info + "%"));
 
+		query.where(restriction);
+		
+		return getSession().createQuery(query).getResultList();
+		
+	}
 
 }

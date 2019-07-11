@@ -16,15 +16,15 @@
 			<h2>Search From</h2>
 			<spring:url value="/${student.id}" var="searchActionUrl" />
 			<form action="searchActionUrl" method="GET" 
-				cssClass="form-horizontal">
+				class="form-horizontal">
 				<table>
 					<tr>
 						<%-- <th>Name&nbsp;&nbsp;</th>
 						<td><form:input path="name" cssClass="form-control" /> <form:errors
 								path="name" cssClass="error" /></td> --%>
 						<th style="padding-left: 28px;">Name Or Email: &nbsp;&nbsp;</th>
-						<td><input name="info" cssClass="form-control" /> <errors
-								name="info" cssClass="error" /></td>
+						<td><input name="info" class="form-control" value="${info}"/> <errors
+								name="info" class="error" /></td>
 						<td style="padding-left: 28px;"><button type="submit">Search</button></td>
 					</tr>
 				</table>
